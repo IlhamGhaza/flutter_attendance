@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendance/data/datasources/auth_remote_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-import 'auth_local_datasource.dart';
-import 'auth_remote_datasource.dart';
 
 class FirebaseMessangingRemoteDatasource {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -60,7 +59,7 @@ class FirebaseMessangingRemoteDatasource {
       body,
       const NotificationDetails(
         android: AndroidNotificationDetails(
-            'com.example.flutter_absensi_app', 'app',
+            'com.example.flutter_attendance', 'app',
             importance: Importance.max),
         iOS: DarwinNotificationDetails(),
       ),

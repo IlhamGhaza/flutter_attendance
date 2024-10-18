@@ -18,11 +18,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'core/core.dart';
 import 'data/datasources/user_remote_datasource.dart';
+import 'data/models/response/qr_absen_remote_datasource.dart';
 import 'firebase_options.dart';
 import 'presentation/auth/bloc/login/login_bloc.dart';
 import 'presentation/auth/pages/splash_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'presentation/home/bloc/check_qr/check_qr_bloc.dart';
+import 'presentation/home/bloc/get_qrcode_checkin/get_qrcode_checkin_bloc.dart';
+import 'presentation/home/bloc/get_qrcode_checkout/get_qrcode_checkout_bloc.dart';
 import 'presentation/setting/profile/bloc/get_user/get_user_bloc.dart';
 import 'presentation/setting/profile/bloc/update_user/update_user_bloc.dart';
 
@@ -80,9 +84,18 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => UpdateUserBloc(UserRemoteDatasource()),
         ),
+        BlocProvider(
+          create: (context) => CheckQrBloc(QrAbsenRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => GetQrcodeCheckinBloc(),
+        ),
+        BlocProvider(
+          create: (context) => GetQrcodeCheckoutBloc(),
+        ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Flutter Attendance',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
           dividerTheme:

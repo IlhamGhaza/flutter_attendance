@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:flutter_attendance/core/constants/variables.dart';
+import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendance/data/models/request/checkinout_request_model.dart';
+import 'package:flutter_attendance/data/models/response/attendance_response_model.dart';
+import 'package:flutter_attendance/data/models/response/checkinout_response_model.dart';
+import 'package:flutter_attendance/data/models/response/company_response_model.dart';
+import 'package:flutter_attendance/data/models/response/company_response_model.dart';
 import 'package:http/http.dart' as http;
-
-import '../../core/constants/variables.dart';
-import '../models/request/checkinout_request_model.dart';
-import '../models/response/attendance_response_model.dart';
-import '../models/response/checkinout_response_model.dart';
-import '../models/response/company_response_model.dart';
-import 'auth_local_datasource.dart';
 
 class AttendanceRemoteDatasource {
   Future<Either<String, CompanyResponseModel>> getCompanyProfile() async {

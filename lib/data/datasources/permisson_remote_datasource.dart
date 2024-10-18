@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_attendance/core/constants/variables.dart';
+import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-
-import '../../core/constants/variables.dart';
-import 'auth_local_datasource.dart';
 
 class PermissonRemoteDatasource {
   Future<Either<String, String>> addPermission(

@@ -30,6 +30,7 @@ class Company {
     final String? radiusKm;
     final String? timeIn;
     final String? timeOut;
+    final String? attendanceType;
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
@@ -45,6 +46,7 @@ class Company {
         this.timeOut,
         this.createdAt,
         this.updatedAt,
+        this.attendanceType,
     });
 
     factory Company.fromJson(String str) => Company.fromMap(json.decode(str));
@@ -61,6 +63,7 @@ class Company {
         radiusKm: json["radius_km"],
         timeIn: json["time_in"],
         timeOut: json["time_out"],
+        attendanceType: json["attendance_type"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
