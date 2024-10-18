@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -33,10 +30,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -51,7 +45,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA3IUU5DQc9XXxPLoQ9ctt_o7AyYJZgds4',
-    appId: '1:266026738752:android:b033fdfc9161d276202ba5',
+    appId: '1:266026738752:android:4e8a59252bf58e0d202ba5',
     messagingSenderId: '266026738752',
     projectId: 'attendanceapp-30b83',
     storageBucket: 'attendanceapp-30b83.appspot.com',
@@ -59,11 +53,31 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCkxghiry0qFq5HzXbM_j8FKqopL_UVbXc',
-    appId: '1:266026738752:ios:ce836c1d505c1321202ba5',
+    appId: '1:266026738752:ios:e0648745708b03ab202ba5',
     messagingSenderId: '266026738752',
     projectId: 'attendanceapp-30b83',
     storageBucket: 'attendanceapp-30b83.appspot.com',
-    iosBundleId: 'com.example.flutterAttendace',
+    iosBundleId: 'com.example.flutterAttendance',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDeE3RFfKA7UfjqEZh1tKFzaHOSHD3AxOM',
+    appId: '1:266026738752:web:2a48bb89e205d267202ba5',
+    messagingSenderId: '266026738752',
+    projectId: 'attendanceapp-30b83',
+    authDomain: 'attendanceapp-30b83.firebaseapp.com',
+    storageBucket: 'attendanceapp-30b83.appspot.com',
+    measurementId: 'G-0KQD67GL5L',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDeE3RFfKA7UfjqEZh1tKFzaHOSHD3AxOM',
+    appId: '1:266026738752:web:eee54ad5fd3f0d15202ba5',
+    messagingSenderId: '266026738752',
+    projectId: 'attendanceapp-30b83',
+    authDomain: 'attendanceapp-30b83.firebaseapp.com',
+    storageBucket: 'attendanceapp-30b83.appspot.com',
+    measurementId: 'G-QHJSNC0Y4X',
   );
 
 }

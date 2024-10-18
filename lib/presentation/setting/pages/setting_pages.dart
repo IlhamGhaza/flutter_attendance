@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_attendance/presentation/setting/pages/edit_pages.dart';
+import 'package:flutter_attendance/presentation/setting/pages/profile_pages.dart';
+import 'package:flutter_attendance/presentation/setting/profile/pages/update_profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_attendance/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:flutter_attendance/presentation/auth/pages/login_page.dart';
@@ -30,21 +31,26 @@ class SettingsPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
           const SizedBox(height: 20),
-          _buildSectionHeader('Account'),
-          _buildListTile('Edit Profile', () {}),
-          _buildListTile('Password', () {}),
-          _buildListTile('Language', () {}),
-          const SizedBox(height: 30),
+          // _buildSectionHeader('Account'),
+          // _buildListTile('Edit Profile', () {
+          //   //navigate to other
+          //   Navigator.of(context).push(
+          //     MaterialPageRoute(builder: (context) => const ProfilePage()),
+          //   );
+          // }),
+          // _buildListTile('Password', () {}),
+
           _buildSectionHeader('Preferences'),
+          _buildListTile('Language', () {}),
           _buildListTile('Theme', () {}),
           _buildListTile('Notifications', () {}),
-          _buildListTile('Attendance', () {}),
+          // _buildListTile('Attendance', () {}),
           const SizedBox(height: 30),
           _buildSectionHeader('Support'),
           _buildListTile('Terms of Service & Privacy', () {}),
           _buildListTile('Clear Cache', () {}),
           _buildListTile('About Me', () {}),
-          const SizedBox(height: 30),
+          const SizedBox(height: 50),
           // _buildSectionHeader(''),
           _buildLogoutButton(context),
         ],
@@ -107,8 +113,12 @@ class SettingsPage extends StatelessWidget {
             },
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(double.infinity, 50),
+              backgroundColor: Colors.red,
             ),
-            child: const Text('Logout'),
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           loading: () => const Center(child: CircularProgressIndicator()),
         );

@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_attendance/data/datasources/auth_remote_datasource.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'auth_local_datasource.dart';
+import 'auth_remote_datasource.dart';
 
 class FirebaseMessangingRemoteDatasource {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -47,7 +48,7 @@ class FirebaseMessangingRemoteDatasource {
     });
 
     FirebaseMessaging.onMessage.listen(firebaseBackgroundHandler);
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessageOpenedApp.listen(firebaseBackgroundHandler);
   }
 

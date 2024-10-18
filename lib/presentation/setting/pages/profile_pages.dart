@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_attendance/presentation/setting/profile/pages/update_profile_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/variables.dart';
 import '../../../core/core.dart';
 import '../../../data/datasources/auth_local_datasource.dart';
+import '../profile/bloc/get_user/get_user_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<GetUserBloc>().add(const GetUserEvent.getUser());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +59,14 @@ class ProfilePage extends StatelessWidget {
           top: 120.0,
           left: 0,
           right: 0,
-          child: _buildProfileImage(),
+          child: buildProfileImage(
+            imageUrl: null, // Replace with actual user image URL when available
+            onEditPressed: () {
+              // Action to edit profile photo
+            },
+          ),
         ),
-         Positioned(
+        Positioned(
           bottom: 10.0,
           left: 0,
           right: 0,
@@ -76,37 +96,47 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileImage() {
+  Widget buildProfileImage({
+    required String? imageUrl,
+    double radius = 80,
+    VoidCallback? onEditPressed,
+  }) {
     return Center(
       child: Stack(
         children: [
-          const CircleAvatar(
-            radius: 50.0,
-            backgroundImage: NetworkImage(
-              'https://i.pinimg.com/originals/1b/14/53/1b14536a5f7e70664550df4ccaa5b231.jpg',
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 15.0,
-              child: IconButton(
-                icon: const Icon(Icons.edit, color: Colors.blue, size: 15.0),
-                onPressed: () {
-                  // Action to edit profile photo
-                },
+          imageUrl != null
+              ? CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      NetworkImage("${Variables.baseUrl}/storage/$imageUrl"),
+                )
+              : const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: NetworkImage(
+                    'https://i.pinimg.com/originals/1b/14/53/1b14536a5f7e70664550df4ccaa5b231.jpg',
+                  ),
+                ),
+          if (onEditPressed != null)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: radius * 0.1875,
+                child: IconButton(
+                  icon: Icon(Icons.edit,
+                      color: Colors.blue, size: radius * 0.1875),
+                  onPressed: onEditPressed,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
   }
 
   Widget _buildProfileInfo() {
-    return  Center(
+    return Center(
       child: FutureBuilder(
         future: AuthLocalDatasource().getAuthData(),
         builder: (context, snapshot) {
@@ -117,12 +147,12 @@ class ProfilePage extends StatelessWidget {
             return Column(
               children: [
                 Text(
-                'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  color: AppColors.white,
-                ),
-                maxLines: 2,
+                  'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    color: AppColors.white,
+                  ),
+                  maxLines: 2,
                 ),
                 const SizedBox(height: 20.0),
               ],
@@ -148,9 +178,31 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10.0),
-          _buildAccountTile('Edit Profile', () {}),
-          _buildAccountTile('Jabatan', () {}),
-          _buildAccountTile('Perangkat Terdaftar', () {}),
+          BlocBuilder<GetUserBloc, GetUserState>(
+            builder: (context, state) {
+              return state.maybeWhen(orElse: () {
+                return SizedBox.shrink();
+              }, loading: () {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }, success: (user) {
+                return Column(
+                  children: [
+                    _buildAccountTile('Edit Profile', () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                UpdateProfilePage(user: user)),
+                      );
+                    }),
+                    _buildAccountTile('Jabatan', () {}),
+                    _buildAccountTile('Perangkat Terdaftar', () {}),
+                  ],
+                );
+              });
+            },
+          ),
         ],
       ),
     );
@@ -168,6 +220,4 @@ class ProfilePage extends StatelessWidget {
       ],
     );
   }
-
-  
 }
