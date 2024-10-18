@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_attendance/presentation/home/pages/location_page.dart';
 import 'package:flutter_attendance/presentation/setting/pages/profile_pages.dart';
 import 'package:flutter_attendance/presentation/setting/profile/pages/update_profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,11 @@ class SettingsPage extends StatelessWidget {
           _buildListTile('Language', () {}),
           _buildListTile('Theme', () {}),
           _buildListTile('Notifications', () {}),
-          // _buildListTile('Attendance', () {}),
+          _buildListTile('Location', () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const LocationPage()),
+            );
+          }),
           const SizedBox(height: 30),
           _buildSectionHeader('Support'),
           _buildListTile('Terms of Service & Privacy', () {}),

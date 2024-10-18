@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:camera/camera.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_attendance/core/constants/variables.dart';
+import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
+import 'package:flutter_attendance/data/models/response/auth_response_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../core/constants/variables.dart';
-import '../models/response/auth_response_model.dart';
 import '../models/response/user_response_model.dart';
-import 'auth_local_datasource.dart';
 
 class AuthRemoteDatasource {
   Future<Either<String, AuthResponseModel>> login(

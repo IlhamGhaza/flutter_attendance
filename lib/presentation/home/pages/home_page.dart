@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_attendance/core/helper/radius_calculate.dart';
-import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_attendance/presentation/home/bloc/get_company/get_company_bloc.dart';
-import 'package:flutter_attendance/presentation/home/bloc/is_checkedin/is_checkedin_bloc.dart';
-import 'package:flutter_attendance/presentation/home/pages/attendance_checkin_page.dart';
-import 'package:flutter_attendance/presentation/home/pages/attendance_checkout_page.dart';
-import 'package:flutter_attendance/presentation/home/pages/permission_page.dart';
-import 'package:flutter_attendance/presentation/home/pages/register_face_attendance_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 // import 'package:safe_device/safe_device.dart';
 
+import '../../../core/constants/variables.dart';
 import '../../../core/core.dart';
+import '../../../core/helper/radius_calculate.dart';
+import '../../../data/datasources/auth_local_datasource.dart';
+import '../../setting/profile/bloc/get_user/get_user_bloc.dart';
+import '../bloc/check_qr/check_qr_bloc.dart';
+import '../bloc/get_company/get_company_bloc.dart';
+import '../bloc/get_qrcode_checkin/get_qrcode_checkin_bloc.dart';
+import '../bloc/is_checkedin/is_checkedin_bloc.dart';
 import '../widgets/menu_button.dart';
+import 'attandences/attendance_result_page.dart';
+import 'attandences/face_detector_checkin_page.dart';
+import 'attandences/scanner_page.dart';
+import 'attendance_checkout_page.dart';
+import 'face_detector_view.dart';
+import 'permission_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     _initializeFaceEmbedding();
     context.read<IsCheckedinBloc>().add(const IsCheckedinEvent.isCheckedIn());
     context.read<GetCompanyBloc>().add(const GetCompanyEvent.getCompany());
+    context.read<GetUserBloc>().add(const GetUserEvent.getUser());
     super.initState();
     getCurrentPosition();
   }
@@ -111,44 +119,94 @@ class _HomePageState extends State<HomePage> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
-                    child: Image.network(
-                      'https://i.pinimg.com/originals/1b/14/53/1b14536a5f7e70664550df4ccaa5b231.jpg',
-                      width: 48.0,
-                      height: 48.0,
-                      fit: BoxFit.cover,
+              BlocBuilder<GetUserBloc, GetUserState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () => const SizedBox.shrink(),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                  const SpaceWidth(12.0),
-                  Expanded(
-                    child: FutureBuilder(
-                      future: AuthLocalDatasource().getAuthData(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Text('Loading...');
-                        } else {
-                          final user = snapshot.data?.user;
-                          return Text(
-                            'Hello, ${user?.name ?? 'Hello, Ilham Sensei'}',
-                            style: const TextStyle(
-                              fontSize: 18.0,
-                              color: AppColors.white,
+                    success: (user) {
+                      return Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(50.0),
+                            child: Image.network(
+                              user.imageUrl != null
+                                  ? '${Variables.baseUrl}/storage/${user.imageUrl}'
+                                  : 'https://i.pinimg.com/originals/1b/14/53/1b14536a5f7e70664550df4ccaa5b231.jpg',
+                              width: 48.0,
+                              height: 48.0,
+                              fit: BoxFit.cover,
                             ),
-                            maxLines: 2,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Assets.icons.notificationRounded.svg(),
-                  ),
-                ],
+                          ),
+                          const SpaceWidth(12.0),
+                          Expanded(
+                            child: Text(
+                              'Hello, ${user?.name ?? 'Hello, Chopper Sensei'}',
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                color: AppColors.white,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              context.read<GetCompanyBloc>().add(
+                                    const GetCompanyEvent.getCompany(),
+                                  );
+                            },
+                            icon: Icon(Icons.refresh, color: AppColors.white),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  // return Row(
+                  //   children: [
+                  //     ClipRRect(
+                  //       borderRadius: BorderRadius.circular(50.0),
+                  //       child: Image.network(
+                  //         'https://i.pinimg.com/originals/1b/14/53/1b14536a5f7e70664550df4ccaa5b231.jpg',
+                  //         width: 48.0,
+                  //         height: 48.0,
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //     const SpaceWidth(12.0),
+                  //     Expanded(
+                  //       child: FutureBuilder(
+                  //         future: AuthLocalDatasource().getAuthData(),
+                  //         builder: (context, snapshot) {
+                  //           if (snapshot.connectionState ==
+                  //               ConnectionState.waiting) {
+                  //             return const Text('Loading...');
+                  //           } else {
+                  //             final user = snapshot.data?.user;
+                  //             return Text(
+                  //               'Hello, ${user?.name ?? 'Hello, Chopper Sensei'}',
+                  //               style: const TextStyle(
+                  //                 fontSize: 18.0,
+                  //                 color: AppColors.white,
+                  //               ),
+                  //               maxLines: 2,
+                  //             );
+                  //           }
+                  //         },
+                  //       ),
+                  //     ),
+                  //     IconButton(
+                  //       onPressed: () {
+                  //         context.read<GetCompanyBloc>().add(
+                  //               const GetCompanyEvent.getCompany(),
+                  //             );
+                  //       },
+                  //       icon: Icon(Icons.refresh, color: AppColors.white),
+                  //     ),
+                  //   ],
+                  // );
+                },
               ),
               const SpaceHeight(24.0),
               Container(
@@ -186,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SpaceHeight(6.0),
                     Text(
-                      '${DateTime(2024, 3, 14, 7, 0).toFormattedTime()} - ${DateTime(2024, 3, 14, 16, 0).toFormattedTime()}',
+                      '${DateTime(2024, 3, 14, 8, 0).toFormattedTime()} - ${DateTime(2024, 3, 14, 16, 0).toFormattedTime()}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20.0,
@@ -199,8 +257,11 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: GridView(
+                  // padding: const EdgeInsets.symmetric(horizontal: 36.0),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
+                    // crossAxisSpacing: 24.0,
+                    // mainAxisSpacing: 24.0,
                     crossAxisSpacing: 16.0,
                     mainAxisSpacing: 16.0,
                   ),
@@ -222,6 +283,10 @@ class _HomePageState extends State<HomePage> {
                           orElse: () => 0.0,
                           success: (data) => double.parse(data.radiusKm!),
                         );
+
+                        final attendanceType = state.maybeWhen(
+                            orElse: () => 'Location',
+                            success: (data) => data.attendanceType!);
                         return BlocConsumer<IsCheckedinBloc, IsCheckedinState>(
                           listener: (context, state) {
                             //
@@ -236,10 +301,6 @@ class _HomePageState extends State<HomePage> {
                               label: 'Datang',
                               iconPath: Assets.icons.menu.datang.path,
                               onPressed: () async {
-                                // Deteksi lokasi palsu
-
-                                // masuk page checkin
-
                                 final distanceKm =
                                     RadiusCalculate.calculateDistance(
                                         latitude ?? 0.0,
@@ -251,36 +312,81 @@ class _HomePageState extends State<HomePage> {
                                     await Geolocator.getCurrentPosition();
 
                                 if (position.isMocked) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Anda menggunakan lokasi palsu'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content: const Text(
+                                              'Anda menggunakan lokasi palsu'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                   return;
                                 }
 
                                 if (distanceKm > radiusPoint) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Anda diluar jangkauan absen'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content: const Text(
+                                              'Anda diluar jangkauan absen'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                   return;
                                 }
 
                                 if (isCheckin) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Anda sudah checkin'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content:
+                                              const Text('Anda sudah checkin'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 } else {
-                                  context.push(const AttendanceCheckinPage());
+                                  if (attendanceType == 'Face') {
+                                    context.push(const FaceDetectorCheckinPage(
+                                      isCheckedIn: true,
+                                    ));
+                                  } else if (attendanceType == 'QR') {
+                                    context.push(const ScannerPage(
+                                      isCheckin: true,
+                                    ));
+                                  } else {
+                                    context.push(AttendanceResultPage(
+                                      isCheckin: true,
+                                      isMatch: true,
+                                      attendanceType: attendanceType,
+                                    ));
+                                  }
                                 }
                               },
                             );
@@ -303,6 +409,10 @@ class _HomePageState extends State<HomePage> {
                           orElse: () => 0.0,
                           success: (data) => double.parse(data.radiusKm!),
                         );
+
+                        final attendanceType = state.maybeWhen(
+                            orElse: () => 'Location',
+                            success: (data) => data.attendanceType!);
                         return BlocBuilder<IsCheckedinBloc, IsCheckedinState>(
                           builder: (context, state) {
                             final isCheckout = state.maybeWhen(
@@ -327,44 +437,100 @@ class _HomePageState extends State<HomePage> {
                                     await Geolocator.getCurrentPosition();
 
                                 if (position.isMocked) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Anda menggunakan lokasi palsu'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content: const Text(
+                                              'Anda menggunakan lokasi palsu'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                   return;
                                 }
 
-                                print('jarak radius:  $distanceKm');
+                                // print('jarak radius:  $distanceKm');
 
                                 if (distanceKm > radiusPoint) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Anda diluar jangkauan absen'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content: const Text(
+                                              'Anda diluar jangkauan absen'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                   return;
                                 }
                                 if (!isCheckIn) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Anda belum checkin'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content: const Text(
+                                              'Anda belum checkin, silahkan checkin terlebih dahulu'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 } else if (isCheckout) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Anda sudah checkout'),
-                                      backgroundColor: AppColors.red,
-                                    ),
-                                  );
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Text('Peringatan'),
+                                          content:
+                                              const Text('Anda sudah checkout'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      });
                                 } else {
-                                  context.push(const AttendanceCheckoutPage());
+                                  if (attendanceType == 'Face') {
+                                    context.push(const FaceDetectorCheckinPage(
+                                      isCheckedIn: false,
+                                    ));
+                                  } else if (attendanceType == 'QR') {
+                                    context.push(const ScannerPage(
+                                      isCheckin: false,
+                                    ));
+                                  } else {
+                                    context.push(AttendanceResultPage(
+                                      isCheckin: false,
+                                      isMatch: true,
+                                      attendanceType: attendanceType,
+                                    ));
+                                  }
                                 }
                               },
                             );
@@ -461,7 +627,9 @@ class _HomePageState extends State<HomePage> {
                                 }
 
                                 if (!isCheckIn) {
-                                  context.push(const AttendanceCheckinPage());
+                                  context.push(const FaceDetectorCheckinPage(
+                                    isCheckedIn: false,
+                                  ));
                                 } else if (!isCheckout) {
                                   context.push(const AttendanceCheckoutPage());
                                 } else {
@@ -529,8 +697,7 @@ class _HomePageState extends State<HomePage> {
                                 Button.filled(
                                   onPressed: () {
                                     context.pop();
-                                    context.push(
-                                        const RegisterFaceAttendencePage());
+                                    context.push(const FaceDetectorView());
                                   },
                                   label: 'Izinkan',
                                 ),
@@ -539,7 +706,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         );
                       },
-                      label: 'Attendance Using Face ID',
+                      label: 'Dafarkan Wajah',
                       icon: Assets.icons.attendance.svg(),
                       color: AppColors.red,
                     ),

@@ -1,21 +1,19 @@
+import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_attendance/core/assets/assets.gen.dart';
-import 'package:flutter_attendance/core/components/spaces.dart';
-import 'package:flutter_attendance/core/constants/colors.dart';
-import 'package:flutter_attendance/core/ml/recognition_embedding.dart';
-import 'package:flutter_attendance/core/ml/recognizer.dart';
-import 'package:flutter_attendance/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_attendance/presentation/home/bloc/update_user_register_face/update_user_register_face_bloc.dart';
-import 'package:flutter_attendance/presentation/home/pages/main_page.dart';
-import 'package:flutter_attendance/presentation/home/widgets/face_detector_painter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 import 'package:image/image.dart' as img;
 
 import '../../../core/core.dart';
+import '../../../core/ml/recognition_embedding.dart';
+import '../../../core/ml/recognizer.dart';
+import '../../../data/datasources/auth_local_datasource.dart';
+import '../bloc/update_user_register_face/update_user_register_face_bloc.dart';
+import '../widgets/face_detector_painter.dart';
+import 'main_page.dart';
 
 class RegisterFaceAttendencePage extends StatefulWidget {
   const RegisterFaceAttendencePage({super.key});

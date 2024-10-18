@@ -22,7 +22,7 @@ class AttendanceSuccessPage extends StatelessWidget {
           children: [
             Assets.images.success.image(),
             const Text(
-              'Asiap !',
+              'Siip !',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.w700,
