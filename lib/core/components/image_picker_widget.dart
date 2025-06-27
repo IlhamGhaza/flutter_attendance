@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../assets/assets.gen.dart';
 import '../constants/colors.dart';
 import '../constants/variables.dart';
 import 'buttons.dart';

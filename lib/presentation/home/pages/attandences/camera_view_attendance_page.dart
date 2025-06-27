@@ -4,9 +4,7 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
-import 'package:image/image.dart' as img;
 
 import '../../../../core/core.dart';
 import '../../../../core/ml/recognition_embedding.dart';
@@ -403,7 +401,9 @@ class _CameraViewState extends State<CameraViewAttendancePage> {
 
     if (format == null ||
         (Platform.isAndroid && format != InputImageFormat.nv21) ||
-        (Platform.isIOS && format != InputImageFormat.bgra8888)) return null;
+        (Platform.isIOS && format != InputImageFormat.bgra8888)) {
+      return null;
+    }
 
     if (image.planes.length != 1) return null;
     final plane = image.planes.first;

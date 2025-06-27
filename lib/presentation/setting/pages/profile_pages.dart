@@ -181,9 +181,9 @@ class _ProfilePageState extends State<ProfilePage> {
           BlocBuilder<GetUserBloc, GetUserState>(
             builder: (context, state) {
               return state.maybeWhen(orElse: () {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               }, loading: () {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }, success: (user) {

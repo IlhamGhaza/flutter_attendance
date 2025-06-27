@@ -1,10 +1,8 @@
 //com.igz.flutter_attendance
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_attendance/core/ml/recognizer.dart';
 import 'package:flutter_attendance/data/datasources/attendance_remote_datasource.dart';
 import 'package:flutter_attendance/data/datasources/auth_remote_datasource.dart';
-import 'package:flutter_attendance/data/datasources/firebase_messanging_remote_datasource.dart';
 import 'package:flutter_attendance/data/datasources/permisson_remote_datasource.dart';
 import 'package:flutter_attendance/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:flutter_attendance/presentation/home/bloc/add_permission/add_permission_bloc.dart';
@@ -100,7 +98,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
           dividerTheme:
               DividerThemeData(color: AppColors.light.withOpacity(0.5)),
-          dialogTheme: const DialogTheme(elevation: 0),
+          dialogTheme: const DialogThemeData(elevation: 0),
           textTheme: GoogleFonts.kumbhSansTextTheme(
             Theme.of(context).textTheme,
           ),

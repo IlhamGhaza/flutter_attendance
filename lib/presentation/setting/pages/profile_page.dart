@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/assets/assets.gen.dart';
 import '../../../core/constants/variables.dart';
 import '../../../core/core.dart';
 import '../../auth/bloc/logout/logout_bloc.dart';
@@ -34,9 +33,9 @@ class _ProfilePageState extends State<ProfilePage> {
               child: BlocBuilder<GetUserBloc, GetUserState>(
                 builder: (context, state) {
                   return state.maybeWhen(orElse: () {
-                    return SizedBox.shrink();
+                    return const SizedBox.shrink();
                   }, loading: () {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }, success: (user) {
@@ -53,26 +52,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                 backgroundImage:
                                     AssetImage(Assets.icons.image.path),
                               ),
-                        SpaceHeight(24),
+                        const SpaceHeight(24),
                         CustomTextField(
                           readOnly: true,
                           label: 'Name',
                           controller: TextEditingController(text: user.name),
                         ),
-                        SpaceHeight(16),
+                        const SpaceHeight(16),
                         CustomTextField(
                           readOnly: true,
                           label: 'Email',
                           controller: TextEditingController(text: user.email),
                         ),
-                        SpaceHeight(16),
+                        const SpaceHeight(16),
                         CustomTextField(
                           readOnly: true,
                           label: 'Phone',
                           controller:
                               TextEditingController(text: user.phone ?? '-'),
                         ),
-                        SpaceHeight(24),
+                        const SpaceHeight(24),
                         Button.outlined(
                           onPressed: () {
                             context.push(UpdateProfilePage(user: user));
@@ -81,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontSize: 16.0,
                           height: 48,
                         ),
-                        SpaceHeight(16),
+                        const SpaceHeight(16),
                       ],
                     );
                   });

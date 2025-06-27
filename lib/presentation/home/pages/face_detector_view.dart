@@ -5,7 +5,6 @@ import 'package:flutter_attendance/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as img;
-import '../../../core/components/buttons.dart';
 import '../../../core/ml/recognition_embedding.dart';
 import '../../../core/ml/recognizer.dart';
 import '../../../data/datasources/auth_local_datasource.dart';

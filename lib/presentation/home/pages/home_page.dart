@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 // import 'package:safe_device/safe_device.dart';
 
@@ -12,9 +10,7 @@ import '../../../core/core.dart';
 import '../../../core/helper/radius_calculate.dart';
 import '../../../data/datasources/auth_local_datasource.dart';
 import '../../setting/profile/bloc/get_user/get_user_bloc.dart';
-import '../bloc/check_qr/check_qr_bloc.dart';
 import '../bloc/get_company/get_company_bloc.dart';
-import '../bloc/get_qrcode_checkin/get_qrcode_checkin_bloc.dart';
 import '../bloc/is_checkedin/is_checkedin_bloc.dart';
 import '../widgets/menu_button.dart';
 import 'attandences/attendance_result_page.dart';
@@ -117,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           ),
           child: ListView(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            physics:  const NeverScrollableScrollPhysics(),
             children: [
               BlocBuilder<GetUserBloc, GetUserState>(
                 builder: (context, state) {
@@ -143,7 +139,7 @@ class _HomePageState extends State<HomePage> {
                           const SpaceWidth(12.0),
                           Expanded(
                             child: Text(
-                              'Hello, ${user?.name ?? 'Hello, Chopper Sensei'}',
+                              'Hello, ${user.name ?? 'Hello, Chopper Sensei'}',
                               style: const TextStyle(
                                 fontSize: 18.0,
                                 color: AppColors.white,
@@ -157,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                                     const GetCompanyEvent.getCompany(),
                                   );
                             },
-                            icon: Icon(Icons.refresh, color: AppColors.white),
+                            icon: const Icon(Icons.refresh, color: AppColors.white),
                           ),
                         ],
                       );

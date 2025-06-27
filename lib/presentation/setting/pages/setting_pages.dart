@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_attendance/presentation/home/pages/location_page.dart';
-import 'package:flutter_attendance/presentation/setting/pages/profile_pages.dart';
-import 'package:flutter_attendance/presentation/setting/profile/pages/update_profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_attendance/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:flutter_attendance/presentation/auth/pages/login_page.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

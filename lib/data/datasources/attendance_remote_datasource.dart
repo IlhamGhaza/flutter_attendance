@@ -7,7 +7,6 @@ import 'package:flutter_attendance/data/models/request/checkinout_request_model.
 import 'package:flutter_attendance/data/models/response/attendance_response_model.dart';
 import 'package:flutter_attendance/data/models/response/checkinout_response_model.dart';
 import 'package:flutter_attendance/data/models/response/company_response_model.dart';
-import 'package:flutter_attendance/data/models/response/company_response_model.dart';
 import 'package:http/http.dart' as http;
 
 class AttendanceRemoteDatasource {

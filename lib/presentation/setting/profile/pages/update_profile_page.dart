@@ -3,7 +3,6 @@ import 'package:flutter_attendance/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/components/image_picker_widget.dart';
-import '../../../../core/constants/colors.dart';
 import '../../../../data/datasources/auth_local_datasource.dart';
 import '../../../../data/models/request/user_request_model.dart';
 import '../../../../data/models/response/auth_response_model.dart';
@@ -63,7 +62,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           actions: const [],
         ),
         bottomNavigationBar: Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SizedBox(
               height: 52,
               child: BlocConsumer<UpdateUserBloc, UpdateUserState>(
@@ -134,17 +133,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 label: 'Name',
                 controller: nameController!,
               ),
-              SpaceHeight(16),
+              const SpaceHeight(16),
               CustomTextField(
                 label: 'Email',
                 controller: emailController!,
               ),
-              SpaceHeight(16),
+              const SpaceHeight(16),
               CustomTextField(
                 label: 'Phone',
                 controller: phoneController!,
               ),
-              SpaceHeight(16),
+              const SpaceHeight(16),
               ImagePickerWidget(
                 label: 'Image Profile',
                 onChanged: (file) {

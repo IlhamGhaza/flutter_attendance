@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_attendance/core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../bloc/check_qr/check_qr_bloc.dart';
 import '../../bloc/get_qrcode_checkin/get_qrcode_checkin_bloc.dart';
-import '../../bloc/get_qrcode_checkout/get_qrcode_checkout_bloc.dart';
 import 'attendance_result_page.dart';
 
 class ScannerPage extends StatefulWidget {
@@ -229,8 +227,8 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
                       ));
                       context
                           .read<GetQrcodeCheckinBloc>()
-                          .add(GetQrcodeCheckinEvent.started());
-                      context.read<CheckQrBloc>().add(CheckQrEvent.started());
+                          .add(const GetQrcodeCheckinEvent.started());
+                      context.read<CheckQrBloc>().add(const CheckQrEvent.started());
                     },
                     success: (isValid) {
                       context.pushReplacement(AttendanceResultPage(
