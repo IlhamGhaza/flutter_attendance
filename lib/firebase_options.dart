@@ -45,19 +45,19 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA3IUU5DQc9XXxPLoQ9ctt_o7AyYJZgds4',
-    appId: '1:266026738752:android:4e8a59252bf58e0d202ba5',
+    appId: '1:266026738752:android:eddfcbc4becb411e202ba5',
     messagingSenderId: '266026738752',
     projectId: 'attendanceapp-30b83',
-    storageBucket: 'attendanceapp-30b83.appspot.com',
+    storageBucket: 'attendanceapp-30b83.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCkxghiry0qFq5HzXbM_j8FKqopL_UVbXc',
-    appId: '1:266026738752:ios:e0648745708b03ab202ba5',
+    appId: '1:266026738752:ios:47a7e6187169a042202ba5',
     messagingSenderId: '266026738752',
     projectId: 'attendanceapp-30b83',
-    storageBucket: 'attendanceapp-30b83.appspot.com',
-    iosBundleId: 'com.example.flutterAttendance',
+    storageBucket: 'attendanceapp-30b83.firebasestorage.app',
+    iosBundleId: 'com.igz.attendance',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
@@ -71,13 +71,13 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDeE3RFfKA7UfjqEZh1tKFzaHOSHD3AxOM',
-    appId: '1:266026738752:web:eee54ad5fd3f0d15202ba5',
+    apiKey: 'AIzaSyBwclF6jNc_dDc4v-IUTuSEw3ObsUpApY8',
+    appId: '1:266026738752:web:2a6d88cddd018f1c202ba5',
     messagingSenderId: '266026738752',
     projectId: 'attendanceapp-30b83',
     authDomain: 'attendanceapp-30b83.firebaseapp.com',
-    storageBucket: 'attendanceapp-30b83.appspot.com',
-    measurementId: 'G-QHJSNC0Y4X',
+    storageBucket: 'attendanceapp-30b83.firebasestorage.app',
+    measurementId: 'G-5CB2CHKXGJ',
   );
 
 }

@@ -2,14 +2,14 @@
   "project_info": {
     "project_number": "266026738752",
     "project_id": "attendanceapp-30b83",
-    "storage_bucket": "attendanceapp-30b83.appspot.com"
+    "storage_bucket": "attendanceapp-30b83.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:266026738752:android:4e8a59252bf58e0d202ba5",
+        "mobilesdk_app_id": "1:266026738752:android:eddfcbc4becb411e202ba5",
         "android_client_info": {
-          "package_name": "com.igz.flutter_attendance"
+          "package_name": "com.igz.attendance"
         }
       },
       "oauth_client": [],

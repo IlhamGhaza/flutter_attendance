@@ -18,13 +18,10 @@ class FirebaseMessangingRemoteDatasource {
     const initializationSettingsAndroid =
         AndroidInitializationSettings('ic_permission');
     final initializationSettingsIOS = DarwinInitializationSettings(
-        requestAlertPermission: true,
-        requestBadgePermission: true,
-        requestSoundPermission: true,
-        onDidReceiveLocalNotification:
-            (int id, String? title, String? body, String? payload) async {
-          // showNotification(id: id, title: title, body: body, payLoad: payload);
-        });
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
 
     final initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
